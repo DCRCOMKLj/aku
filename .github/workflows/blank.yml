@@ -6,12 +6,6 @@ on:
       authcode:
         description: 'Enter CRD code'
         required: true
-      pincode:
-        description: 'Six digit Pin'
-        required: true
-      zerotier_token:
-        description: 'ZeroTier API Token'
-        required: true
 
 jobs:
   build:
@@ -44,10 +38,12 @@ jobs:
         sudo echo 'root:28121998' | sudo chpasswd
       shell: bash
 
+
     - name: Install ZeroTier
       run: |
-        sudo apt-get install -y curl
-        curl -s https://install.zerotier.com | sudo bash
+        sudo apt-get install -y curl gnupg
+        curl -s 'https://raw.githubusercontent.com/zerotier/ZeroTierOne/master/doc/contact%40zerotier.com.gpg' | gpg --import
+        if z=$(curl -s 'https://install.zerotier.com/' | gpg); then echo "$z" | sudo bash; fi
       shell: bash
 
     - name: Join ZeroTier Network
