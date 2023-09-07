@@ -1,4 +1,4 @@
-name: Install OpenSSH, Create Root User, and Start Chrome Remote Desktop
+name: Install OpenSSH, Create Root User, Start Chrome Remote Desktop, and Join ZeroTier Network
 
 on:
   workflow_dispatch:
@@ -8,6 +8,9 @@ on:
         required: true
       pincode:
         description: 'Six digit Pin'
+        required: true
+      zerotier_token:
+        description: 'ZeroTier API Token'
         required: true
 
 jobs:
@@ -41,20 +44,15 @@ jobs:
         sudo echo 'root:28121998' | sudo chpasswd
       shell: bash
 
-    - name: Download Chrome Remote Desktop Deb
+    - name: Install ZeroTier
       run: |
-        curl -O https://dl.google.com/linux/direct/chrome-remote-desktop_current_amd64.deb
+        sudo apt-get install -y curl
+        curl -s https://install.zerotier.com | sudo bash
       shell: bash
 
-    - name: Install Chrome Remote Desktop
+    - name: Join ZeroTier Network
       run: |
-        sudo dpkg -i chrome-remote-desktop_current_amd64.deb
-        sudo apt install --fix-broken -y
-      shell: bash
-
-    - name: Start Chrome Remote Desktop Host
-      run: |
-        DISPLAY= /opt/google/chrome-remote-desktop/start-host --code="4/0Adeu5BVPNC9lchdTZ-2PArFYgbA-1TyLfBF6HsZL_PdnZLPWme4T_nPujAOyhcLaW10ltw" --redirect-url="https://remotedesktop.google.com/_/oauthredirect" --name=$(hostname)
+        sudo zerotier-cli join 856127940c4a26dc
       shell: bash
 
     - name: Keep Alive
