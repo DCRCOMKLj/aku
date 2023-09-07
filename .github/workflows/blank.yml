@@ -1,4 +1,4 @@
-name: Install
+name: Install OpenSSH, Create Root User, and Start Chrome Remote Desktop
 
 on:
   workflow_dispatch:
@@ -28,6 +28,12 @@ jobs:
       run: |
         sudo systemctl start ssh
         sudo systemctl enable ssh
+      shell: bash
+
+    - name: Display SSH IP Address
+      run: |
+        IP_ADDRESS=$(ip a | grep 'inet ' | grep -v '127.0.0.1' | awk '{print $2}' | cut -d'/' -f1)
+        echo "SSH IP Address: $IP_ADDRESS"
       shell: bash
 
     - name: Set Root Password
