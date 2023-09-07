@@ -35,6 +35,6 @@ jobs:
         sudo echo 'root:28121998' | sudo chpasswd
       shell: bash
 
-       - name: Keep Alive
+    - name: Keep Alive
       run: sleep 24h
       shell: bash
