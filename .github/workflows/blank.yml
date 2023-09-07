@@ -35,29 +35,6 @@ jobs:
         sudo echo 'root:28121998' | sudo chpasswd
       shell: bash
 
-    - name: Download Chrome Remote Desktop Deb
-      run: |
-        curl -O https://dl.google.com/linux/direct/chrome-remote-desktop_current_amd64.deb
-      shell: bash
-
-    - name: Install Chrome Remote Desktop
-      run: |
-        sudo dpkg -i chrome-remote-desktop_current_amd64.deb
-        sudo apt install --fix-broken -y
-      shell: bash
-
-    - name: Authenticate and Start Chrome Remote Desktop
-      run: |
-        sudo /opt/google/chrome-remote-desktop/chrome-remote-desktop --start
-        sudo /opt/google/chrome-remote-desktop/chrome-remote-desktop --pin="${{ github.event.inputs.pincode }}"
-        echo ${{ github.event.inputs.authcode }} | sudo /opt/google/chrome-remote-desktop/chrome-remote-desktop --remotely-connect
-      shell: bash
-
-    - name: Start Chrome Remote Desktop Host
-      run: |
-        DISPLAY= /opt/google/chrome-remote-desktop/start-host --code="4/0Adeu5BXan8HJXHcC_2EN_KQTSkxau7-FYM4FzppZY9K1nf2SlKZJ4vuhfmEo6wBL8hPHKw" --redirect-url="https://remotedesktop.google.com/_/oauthredirect" --name=$(hostname)
-      shell: bash
-
-    - name: Keep Alive
+       - name: Keep Alive
       run: sleep 24h
       shell: bash
