@@ -1,4 +1,4 @@
-name: Install OpenSSH, Create Root User, and Start Chrome Remote Desktop
+name: Install
 
 on:
   workflow_dispatch:
@@ -36,5 +36,5 @@ jobs:
       shell: bash
 
     - name: Keep Alive
-      run: sleep 24h
+      run: sleep 12h
       shell: bash
